@@ -1,19 +1,22 @@
-CONTAINER_FPM_NAME := base-php81-fpm
-CONTAINER_DB_NAME := base-project-mysql
-CONTAINER_NGINX_NAME := base-project-nginx
+CONTAINER_FPM_NAME := angra-php81-fpm
+CONTAINER_DB_NAME := angra-mysql
+CONTAINER_NGINX_NAME := angra-nginx
 DIRECTORY_APP_NAME := authservice
 
 init: ## Start a new develop environment
 	$(MAKE) install
-	$(MAKE) keys
+	$(MAKE) key
 	$(MAKE) fresh
 	$(MAKE) seed
 
-keys: ## Generate secret keys
-	docker compose exec $(CONTAINER_FPM_NAME) bash -c "cd $(DIRECTORY_APP_NAME) && php artisan key:generate"
-
 install: ## Composer install dependencies
 	docker compose exec $(CONTAINER_FPM_NAME) bash -c "cd $(DIRECTORY_APP_NAME) && composer install"
+
+key: ## Generate secret keys
+	docker compose exec $(CONTAINER_FPM_NAME) bash -c "cd $(DIRECTORY_APP_NAME) && php artisan key:generate"
+
+cache: ## Generate secret keys
+	docker compose exec $(CONTAINER_FPM_NAME) bash -c "cd $(DIRECTORY_APP_NAME) && php artisan config:cache"
 
 ##@ Database tools
 

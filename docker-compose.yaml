@@ -7,20 +7,20 @@ networks:
     driver: bridge
 
 volumes:
-  base-project-mysql_data:
+  authservice-mysql_data:
     driver: local
 
 # Services
 services:
 
   # Nginx
-  base-project-nginx:
+  angra-nginx:
     image: nginx:latest
-    container_name: base-project-nginx
+    container_name: angra-nginx
     networks:
       angranet:
-        aliases:
-          - baseproject-cc.desenv
+        # aliases:
+        #   - authservice.desenv
     working_dir: /var/www
     volumes:
       - ./projects:/var/www
@@ -29,28 +29,28 @@ services:
       - "8080:80"
       - "443:443"
     
-  base-php81-fpm:
+  angra-php81-fpm:
     build:
       context: .
       dockerfile: ./.docker/opt/docker/Dockerfile
-    container_name: base-php81-fpm
+    container_name: angra-php81-fpm
     volumes:
       - ./projects:/var/www/
     networks:
       - angranet
 
-  base-project-mysql:
+  angra-mysql:
     image: mysql:latest
-    container_name: base-project-mysql
+    container_name: angra-mysql
     networks:
       - angranet
     volumes:
-      - base-project-mysql_data:/var/lib/mysql
+      - authservice-mysql_data:/var/lib/mysql
     environment:
-      - MYSQL_DATABASE=baseproject_db
+      - MYSQL_DATABASE=angra_db
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_USER=baseproject_user
-      - MYSQL_PASSWORD=baseproject_password
+      - MYSQL_USER=angra_user
+      - MYSQL_PASSWORD=angra_password
       - MYSQL_TCP_PORT=3308
     ports:
       - "3308:3308"
