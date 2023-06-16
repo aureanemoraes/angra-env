@@ -1,0 +1,23 @@
+ Which user ID should the client be assigned to? (Optional):
+ > 1
+
+ What should we name the client?:
+ > Test App Client
+
+ Where should we redirect the request after authorization? [http://localhost/auth/callback]:
+ > http://clientapp.desenv:8080/callback
+
+New client created successfully.
+Client ID: 996beb9e-814c-4530-9532-e886bec63ba6
+Client secret: Ak4VyOUMRnnVUXN3uZef6HWf39ExHi343qkty24k
+
+composer create-project --prefer-dist "laravel/laravel:9.*" clientapp
+
+- configurar o oauth/autorize - /login
+- configurar o oauth/token - /callback
+
+- o front acessa a rota de login do clientapp com o username e o password;
+
+
+- Acessar a rota de user do clientapp com um bearer token;
+- O cliente app fará a requisição para o /sso do authservice e verificará se o token é valido, se for enviará os usuários, se não, enviará unauthenticated.

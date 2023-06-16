@@ -19,8 +19,9 @@ services:
     container_name: angra-nginx
     networks:
       angranet:
-        # aliases:
-        #   - authservice.desenv
+        aliases:
+          - authservice.desenv
+          - clientapp.desenv
     working_dir: /var/www
     volumes:
       - ./projects:/var/www
@@ -47,7 +48,7 @@ services:
     volumes:
       - authservice-mysql_data:/var/lib/mysql
     environment:
-      - MYSQL_DATABASE=angra_db
+      - MYSQL_DATABASE=auth_db
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_USER=angra_user
       - MYSQL_PASSWORD=angra_password

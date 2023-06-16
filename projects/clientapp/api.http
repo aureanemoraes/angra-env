@@ -1,0 +1,1 @@
+POST http://clientapp.desenv:8080/api/logout
