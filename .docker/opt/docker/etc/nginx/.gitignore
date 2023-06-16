@@ -1,2 +1,3 @@
 *.conf
+!authservice.conf
 !baseproject-cc.conf

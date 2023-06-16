@@ -58,7 +58,7 @@ fpm: ## Start fpm bash
 	docker compose exec $(CONTAINER_FPM_NAME) bash
 
 nginx: ## Start nginx bash
-	docker compose exec -u application $(CONTAINER_NGINX_NAME) bash
+	docker compose exec $(CONTAINER_NGINX_NAME) bash
 
 mysql: ## Start mysql bash
 	docker compose exec $(CONTAINER_DB_NAME) bash
