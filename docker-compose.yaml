@@ -1,0 +1,56 @@
+version: '3.7'
+
+# Networks
+networks:
+  # Internal network
+  angranet:
+    driver: bridge
+
+volumes:
+  base-project-mysql_data:
+    driver: local
+
+# Services
+services:
+
+  # Nginx
+  base-project-nginx:
+    image: nginx:latest
+    container_name: base-project-nginx
+    networks:
+      angranet:
+        aliases:
+          - baseproject-cc.desenv
+    working_dir: /var/www
+    volumes:
+      - ./projects:/var/www
+      - ./.docker/opt/docker/etc/nginx:/etc/nginx/conf.d
+    ports:
+      - "8080:80"
+      - "443:443"
+    
+  base-php81-fpm:
+    build:
+      context: .
+      dockerfile: ./.docker/opt/docker/Dockerfile
+    container_name: base-php81-fpm
+    volumes:
+      - ./projects:/var/www/
+    networks:
+      - angranet
+
+  base-project-mysql:
+    image: mysql:latest
+    container_name: base-project-mysql
+    networks:
+      - angranet
+    volumes:
+      - base-project-mysql_data:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=baseproject_db
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=baseproject_user
+      - MYSQL_PASSWORD=baseproject_password
+      - MYSQL_TCP_PORT=3308
+    ports:
+      - "3308:3308"
